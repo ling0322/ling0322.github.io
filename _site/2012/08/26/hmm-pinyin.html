@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题</title>
+  <meta name="author" content="Alexandre Matos Martins" />
+  <meta name="description" content="使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题" />
+  <link href="/atom.xml" rel="alternate" title="" type="application/atom+xml" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/jquery.metro.css" type="text/css" media="all" />
+  <script src="/js/libs/jquery.min.js"></script>
+  <script src="/js/libs/jquery.metro.js"></script>
+  <script>
+  $(function () {
+      $("div.metro-pivot").metroPivot();
+      });
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/libs/modernizr-2.5.3-respond-1.1.0.min.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="header-container">
+    <header class="wrapper clearfix">
+      <h1 id="title">黑化二次元研究笔记 (</h1>
+      <nav>
+        <ul>
+          <li><a href="/" style="background: #199900">home</a></li>
+          <li><a href="https://twitter.com/ling0322" style="background: #F5B401">twitter</a></li>
+          <li><a href="https://github.com/ling0322" style="background: #AF1D00">github</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <div id="main-container">
+    <div id="main" class="wrapper clearfix">      
+        <script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/js/libs/prettify.js"></script>
+<script type="text/javascript">
+$(function () {
+  $('pre').addClass("prettyprint");
+  prettyPrint();
+});
+</script>
+
+<article>
+  <section>
+  <h1>使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题</h1>
+  <p>拼音纠错就是将用户输入的汉语拼音进行纠错，这个貌似说跟没说一个样。打个比方吧，用户输入zhege(这个)的时候，不小心输成了zhrge。这个时候就需要拼音纠错将zhr ge自动识别成zhe ge，因为完整的拼音zh后面不可能跟着r。</p>
+
+<p>最近在看关于HMM模型的书，突然想到拼音纠错问题可以使用HMM来解决。道理很简单，将正确的拼音，比如zhege，作为内部状态序列；将用户的输入，比如zhrge，作为观测序列，建立HMM后使用viterbi算法从观测序列取猜测最有可能的内部序列就实现了纠错的过程。这样就是一个很典型的隐马模型了，每个内部状态都有一定的几率产生正确的或者错误的观测结果，比如内部状态e，有一定几率产生正确的观测结果e，也有可能产生错误的观测结果r，这个就是发射矩阵(Emit Matrix)；在拼音中h后面有一定的概率是e，但是后面是r的概率就接近于0了，这个就是HMM里面的转移矩阵(Trans Matrix)。</p>
+
+<p>为了简单的实现用HMM模型实现拼音的纠错，进行三个假设</p>
+
+<ul>
+<li>所有输入的拼音均为完成的拼音，比如zhege，但是zheg或者zge就不是完整的拼音</li>
+<li>所有可能出错的按键均为某输入的按键的旁边两个键，比如e只可能错误的输入成r或者w，h只可能错成g或者j</li>
+<li>任何汉字的拼音的出现都是独立的，就比如zhe和ge是独立的(虽然现实中是有关系的，zhe后面出现ge的概率很大)，相互的出现对彼此都没有影响</li>
+</ul>
+
+
+<p>有了以上的两个假设，问题解决起来就方便多了。转移矩阵可以从Google输入法的词库文件中训练出来，而发射矩阵需要自己定义，将每个按键本身和旁边两个键的概率自己设定一下就可以了，比如</p>
+
+<pre><code>'b': {'b': prob_t_c, 'v': prob_t_i, 'n': prob_t_i},
+'c': {'c': prob_t_c, 'x': prob_t_i, 'v': prob_t_i},
+'d': {'d': prob_t_c, 's': prob_t_i, 'f': prob_t_i},
+'e': {'e': prob_t_c, 'w': prob_t_i, 'r': prob_t_i},
+....
+</code></pre>
+
+<p>这里的prob_t_c就是正确的概率，prob_t_i就是错误的概率。如果取prob_t_c = 0.8, prob_t_i = (1 - prob_t_c) / 2 = 0.1的话，那么b就有0.8的概率被正确输入，而有0.1的概率分别被错误的输入成v和n。关于prob_t_c到底取多少才是最优的这个问题没有取深究过，不过使用了一组数据小观测了一下在30%错误率情况下取prob_t_c = 0.8效果最佳。</p>
+
+<p>此外，为了解决拼音的切分问题，将可能作为拼音结尾的几个字母分成两种状态。即出现在拼音首部以及中部的状态x，和只出现在拼音尾部的状态x'。其中状态x'的转移概率向量为起始状态('^')的转移概率向量，因为这里假设汉字的拼音是独立的，zhe这个拼音结束以后，任何的字母的出现的概率与最开始某字母在拼音首部出现的概率是一样的；x'的发射概率向量与x的发射概率向量是相同的。这样就可以解决拼音的切分问题了。比如shen，从e状态转移到n'状态就表示拼音结束，而从e状态转移到n状态则表示拼音还没有结束。</p>
+
+<p>将HMM模型解决好后，就可以使用viterbi算法根据观测序列取猜测最有可能的内部序列来完成纠错了。</p>
+
+<p>以下是纠错的结果(prob_t_c = 0.8的情况下)：</p>
+
+<p>30%单个字母错误率的情况下，1-viterbi算法召回率约为68%，3-viterbi算法召回率约为89%，虽然数据看上去让人很伤心，但是实际上测试数据中包括了大量比如wenguachisnvo这种错的离谱的拼音，就算是人也不能很容易的猜出正确的结果(wen'hua'chuan'bo')。总体上来说还是不错的。</p>
+
+<p>10%单个字母错误率情况下3-viterbi算法召回率则达到了95%.</p>
+
+<p>如果想再提高正确率的话，简单的办法由两种。第一是使用n>3的n-viterbi算法，第二则是使用阶数更高的HMM模型。不过任何一种带来的时间/空间复杂度的提升都是指数级别的。</p>
+
+<p>相关代码放在了https://github.com/ling0322/hmm-pinyin里面，其中result.txt为10%单个ziu错误概率情况下的运行结果，result2.txt为30%下的运行结果。</p>
+
+  </section>
+  <footer>
+  </footer>
+</article>
+
+<aside>
+  <h4>26 Aug 2012</h4>
+  <span><a href="/tags/HMM.html">#HMM</a> &nbsp;<a href="/tags/Machine Learning.html">#Machine Learning</a> &nbsp;</span>
+  <h3>Recent Posts</h3>
+  
+    <a href="/2013/05/07/recommander-system.html">使用矩阵分解做推荐系统</a> <br>
+  
+    <a href="/2013/02/13/cws-intro.html">关于分词以及常用软件的简单介绍</a> <br>
+  
+    <a href="/2012/08/26/hmm-pinyin.html">使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题</a> <br>
+  
+    <a href="/2012/06/26/python-encoding.html">使Python 2.x字符串编码的小结</a> <br>
+  
+    <a href="/2012/02/11/linux-font-aa.html">Linux下Simsun字体英文关AA的设置</a> <br>
+  
+  <h3>Tags</h3>
+   &nbsp;&nbsp;<a href="/tags/Font.html" title="Posts tagged Font" style="font-size: 16.2px; line-height:16.2px">Font</a> &nbsp;&nbsp;<a href="/tags/Google.html" title="Posts tagged Google" style="font-size: 16.2px; line-height:16.2px">Google</a> &nbsp;&nbsp;<a href="/tags/HMM.html" title="Posts tagged HMM" style="font-size: 16.2px; line-height:16.2px">HMM</a> &nbsp;&nbsp;<a href="/tags/Hello World.html" title="Posts tagged Hello World" style="font-size: 16.2px; line-height:16.2px">Hello World</a> &nbsp;&nbsp;<a href="/tags/Machine Learning.html" title="Posts tagged Machine Learning" style="font-size: 17.4px; line-height:17.4px">Machine Learning</a> &nbsp;&nbsp;<a href="/tags/MapReduce.html" title="Posts tagged MapReduce" style="font-size: 16.2px; line-height:16.2px">MapReduce</a> &nbsp;&nbsp;<a href="/tags/NLP.html" title="Posts tagged NLP" style="font-size: 16.2px; line-height:16.2px">NLP</a> &nbsp;&nbsp;<a href="/tags/Python.html" title="Posts tagged Python" style="font-size: 16.2px; line-height:16.2px">Python</a> &nbsp;&nbsp;<a href="/tags/中文分词.html" title="Posts tagged 中文分词" style="font-size: 16.2px; line-height:16.2px">中文分词</a> &nbsp;&nbsp;<a href="/tags/云计算.html" title="Posts tagged 云计算" style="font-size: 16.2px; line-height:16.2px">云计算</a> &nbsp;&nbsp;<a href="/tags/推荐系统.html" title="Posts tagged 推荐系统" style="font-size: 16.2px; line-height:16.2px">推荐系统</a>
+
+</aside>
+
+
+     
+    </div> <!-- #main -->
+  </div> <!-- #main-container -->
+
+<div id="about-container">
+  <div class="wrapper">
+
+    <div id="side" class="clearfix">
+    </div>
+            
+    <article>
+    <h2>About</h2>
+    <strong>@ling0322 (Louis Chen)</strong></br>
+    <span>Python / NLP / Machine Learning / Go</span><br />
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/2.5/cn/88x31.png" /></a></span><br />
+    <span>本作品采用知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议进行许可</span><br />
+    <span>* This template is from <a href="http://al3xandr3.github.io/">http://al3xandr3.github.io/</a></span>
+    </article>
+
+  </div> <!-- wrapper -->
+</div> <!-- about-container -->
+
+
+
+
+<!-- Metro Pivot -->
+
+</body>
+</html>

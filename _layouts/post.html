@@ -38,7 +38,7 @@ $(function () {
 
 <aside>
   <h4>{{page.date|date_to_string}}</h4>
-  <span style="opacity:.85;font-size: 100%;">{% for tag in page.tags %}<a href="/tags/{{tag}}.html">#{{tag}}</a> &nbsp;{% endfor %}</span>
+  <span>{% for tag in page.tags %}<a href="/tags/{{tag}}.html">#{{tag}}</a> &nbsp;{% endfor %}</span>
   <h3>Recent Posts</h3>
   {% for post in site.posts limit: 5 %}
     <a href="{{post.url}}">{{post.title}}</a> <br>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>关于分词以及常用软件的简单介绍</title>
+  <meta name="author" content="Alexandre Matos Martins" />
+  <meta name="description" content="关于分词以及常用软件的简单介绍" />
+  <link href="/atom.xml" rel="alternate" title="" type="application/atom+xml" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/jquery.metro.css" type="text/css" media="all" />
+  <script src="/js/libs/jquery.min.js"></script>
+  <script src="/js/libs/jquery.metro.js"></script>
+  <script>
+  $(function () {
+      $("div.metro-pivot").metroPivot();
+      });
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/libs/modernizr-2.5.3-respond-1.1.0.min.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="header-container">
+    <header class="wrapper clearfix">
+      <h1 id="title">黑化二次元研究笔记 (</h1>
+      <nav>
+        <ul>
+          <li><a href="/" style="background: #199900">home</a></li>
+          <li><a href="https://twitter.com/ling0322" style="background: #F5B401">twitter</a></li>
+          <li><a href="https://github.com/ling0322" style="background: #AF1D00">github</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <div id="main-container">
+    <div id="main" class="wrapper clearfix">      
+        <script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/js/libs/prettify.js"></script>
+<script type="text/javascript">
+$(function () {
+  $('pre').addClass("prettyprint");
+  prettyPrint();
+});
+</script>
+
+<article>
+  <section>
+  <h1>关于分词以及常用软件的简单介绍</h1>
+  <p>因为自然语言处理大作业的关系，最近看一些关于分词算法和软件的介绍。现在已经看的差不多了，因为网络上关于分词的资料比较少，大多数还停留在字典分词阶段，所以为了方便需要了解着一个方面的人，总结一下，写成这篇日志。</p>
+
+<p>首先说一下目前主流的分词算法，在 <a href="http://zhangkaixu.github.com/bibpage/cws.html">http://zhangkaixu.github.com/bibpage/cws.html</a></p>
+
+<p>这里zhangkaixu大大维护了一些比较著名的分词算法论文，如果想去搞研究的话可以去这里坑几篇论文学习学习。</p>
+
+<h2>主流分词软件</h2>
+
+<p>挑重要的讲，目前的分词软件很多，也比较杂。这里列举一些效果比较好的分词软件。</p>
+
+<ul>
+<li>Stanford Word Segmenter （Java，GPL） 老牌美帝斯坦佛大学NLP小组出品</li>
+<li>nlpbamboo (C++, BSD） PostgreSQL的大大们制作的一个基于CRF++库的分词软件</li>
+<li>ICTCLAS （闭源但是提供非商业使用lib）中科院出品也是目前比较广泛的分词软件</li>
+<li>LTP （主要C++, 很神奇的LTP开源协议） 哈工大的一个自然语言处理平台，已经做到浅层语义分析了，分词是其中的一个模块。</li>
+<li>fudannlp （Java，LGPL） 复旦大学的语言处理平台，与LTP类似，已经做到依存句法分析以及指代消歧了。用Java编写LGPL协议，非常推荐。</li>
+</ul>
+
+
+<h2>分类</h2>
+
+<p>分词算法在20世纪80年代就有研究，不过基于当时的技术条件所限，大多数就是原始的机械分词算法。比如，最大匹配算法，mmseg等。</p>
+
+<p>关于原始的机械分词算法 <a href="http://www.cnblogs.com/alic/articles/1215001.html">http://www.cnblogs.com/alic/articles/1215001.html</a> 这篇blog有很详细的介绍。</p>
+
+<p>之后随着统计算法在自然语言处理领域地位的奠定以及机器学习的兴起，基于统计和机器学习的分词算法逐渐成为主流。根据机器学习方法的分类，分词算法也可以分成无监督分词，半监督分词以及有监督的分词。目前有监督的分词以及半监督的分词已经研究的比较成熟。对于这种分词算法，大致可以分为四类。</p>
+
+<ul>
+<li>第一类是<strong>生成式的基于词</strong>的分词方法，这类具有代表的是中科院的ICTCLAS等等比较经典的分词软件。</li>
+<li>第二类是<strong>判别式的基于词</strong>的分词方法，这类中的算法比较少，其中一个是基于平衡感知机的分词。</li>
+<li>第三类是<strong>生成式基于字</strong>的生成式分词方法，比如Wang(2009)所提出的n元模型分词算法。</li>
+<li>第四类也是目前主流的是<strong>基于字的判别式</strong>分词方法，主要是最大熵模型和条件随机场模型。几乎全部2003年之后提出的分词算法都与这一类别有关，比如哈工大的LTP和Stanford Word Segmenter就是采用CRF模型。</li>
+</ul>
+
+
+<p>此外，分词算法还可以根据在自然预言处理中的步骤来分，比如纯分词，就是除了分词之外什么都不做，大多数基于字的分词算法都属于这一类。此外将分词和词性标注结合在一起完成，比如ICTCLAS。还有基于语义网络分词的算法。总的来说，结合额外信息越多，对于分词结果就越好。比如ICTCLAS将分词与词性标注结果结合起来，效果就比光光使用一元概率模型（ICTCLAS）效果要好。</p>
+
+<h2>分词模型</h2>
+
+<p>分词模型大致可以分为判别式和生成式，以及基于词和基于字的方法。主要使用到的模型为: n-Gram，Percepton，HMM，SVM，ME，CRF。</p>
+
+<p>判别式和生成式的区别就是判别式是计算P(Y|X)的条件概率，但是生成式则是计算P(X1, X2)的联合概率，通常来说判别式的效果要比生成式的要好，这一分类比较复杂，不好解释，涉及到很多数学模型，详情可以去看看相关资料。</p>
+
+<p>基于词和基于字的分词的区别就是基于词的算法将词看成算法中最小单元，比如这句话</p>
+
+<blockquote><p>结合/成/分子/时</p></blockquote>
+
+<p>在基于词的分词算法中，主要用到一个词典，“结合”、“成”、“分子”在词典中，它们是分词中的最小单元，不可拆分，一旦拆分就会出现分词错误。但是基于字的分词算法则不同，它将每个字看成是一个单元，通常和序列标注相结合，对每个字进行标注，然后得出分词结果。比如</p>
+
+<blockquote><p>结合成分子时</p></blockquote>
+
+<p>使用CRF等序列标注模型得出的序列标注结果是</p>
+
+<blockquote><p>B E S B E S</p></blockquote>
+
+<p>其中B表示一个词的开头，E表示一个词的结尾，S表示单个字作为词。然后分词的结果经过一些小处理就可以得出了。</p>
+
+<p>通常来说基于词的分词算法在词典比较全，文章比较正式的时候效果比较好。但是总是会遇见一些比较变态的词典中没有的词，其中最有代表的就是人名地名还有商标名等等。所以一般这些基于词分词软件还必须要加上识别人名地名的功能。</p>
+
+<p>基于字的分词算法主要是依赖于某些字在构词方面的特征，比如“的”字通常就是单个字出现，有很大的几率是标注为S，“化”字比较喜欢出现在词的末尾，比如现代化，工业化等等。根据这些信息进行标注分词，它对于词典中不存在的词效果识别几率比较大，但是对于词典中的词可能会识别错误，另外还会出现千奇百怪的分词错误，比如“沙把”等等。
+因此，现在多数的分词软件在基于字的基于上，或多或少的结合了一点基于词的特征。</p>
+
+<h2>相关资源</h2>
+
+<p>关于中文分词的课程，可以去搜索一下刘群教授的课程录像或者课件，非常好。</p>
+
+<ul>
+<li>CRF模型常用的一个库CRF++ <a href="http://crfpp.googlecode.com/svn/trunk/doc/index.html">http://crfpp.googlecode.com/svn/trunk/doc/index.html</a></li>
+<li>一篇关于CRF++分词的blog <a href="http://yongsun.me/2008/03/%E5%AE%9E%E9%AA%8Ccrf/">http://yongsun.me/2008/03/%E5%AE%9E%E9%AA%8Ccrf/</a></li>
+<li>Bakeoff-2005官网这里有4个可以免费测试的语料庫 <a href="http://www.sighan.org/bakeoff2005/">http://www.sighan.org/bakeoff2005/</a></li>
+<li>人民日报1998年1月标注语料庫是可以免费使用的</li>
+</ul>
+
+
+<h2>结束以及一些思考</h2>
+
+<p>大致走马观花的讲了一下中文分词领域的一些模型以及目前的一些分词软件。在最近特别是Web的兴起，伴随着大量新词比如“基友”、“妹抖”的出现，对于分词也是一个挑战。目前新词识别率比较高的CRF模型在新词识别方面最高也只达到70%左右的正确率。且大多数的中文分词语料均是基于正规文本比如《人民日报》，所以使用在Web内容中有一定的局限。</p>
+
+<p>期待有更好的分词模型被提出吧=w=</p>
+
+  </section>
+  <footer>
+  </footer>
+</article>
+
+<aside>
+  <h4>13 Feb 2013</h4>
+  <span><a href="/tags/NLP.html">#NLP</a> &nbsp;<a href="/tags/中文分词.html">#中文分词</a> &nbsp;</span>
+  <h3>Recent Posts</h3>
+  
+    <a href="/2013/05/07/recommander-system.html">使用矩阵分解做推荐系统</a> <br>
+  
+    <a href="/2013/02/13/cws-intro.html">关于分词以及常用软件的简单介绍</a> <br>
+  
+    <a href="/2012/08/26/hmm-pinyin.html">使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题</a> <br>
+  
+    <a href="/2012/06/26/python-encoding.html">使Python 2.x字符串编码的小结</a> <br>
+  
+    <a href="/2012/02/11/linux-font-aa.html">Linux下Simsun字体英文关AA的设置</a> <br>
+  
+  <h3>Tags</h3>
+   &nbsp;&nbsp;<a href="/tags/Font.html" title="Posts tagged Font" style="font-size: 16.2px; line-height:16.2px">Font</a> &nbsp;&nbsp;<a href="/tags/Google.html" title="Posts tagged Google" style="font-size: 16.2px; line-height:16.2px">Google</a> &nbsp;&nbsp;<a href="/tags/HMM.html" title="Posts tagged HMM" style="font-size: 16.2px; line-height:16.2px">HMM</a> &nbsp;&nbsp;<a href="/tags/Hello World.html" title="Posts tagged Hello World" style="font-size: 16.2px; line-height:16.2px">Hello World</a> &nbsp;&nbsp;<a href="/tags/Machine Learning.html" title="Posts tagged Machine Learning" style="font-size: 17.4px; line-height:17.4px">Machine Learning</a> &nbsp;&nbsp;<a href="/tags/MapReduce.html" title="Posts tagged MapReduce" style="font-size: 16.2px; line-height:16.2px">MapReduce</a> &nbsp;&nbsp;<a href="/tags/NLP.html" title="Posts tagged NLP" style="font-size: 16.2px; line-height:16.2px">NLP</a> &nbsp;&nbsp;<a href="/tags/Python.html" title="Posts tagged Python" style="font-size: 16.2px; line-height:16.2px">Python</a> &nbsp;&nbsp;<a href="/tags/中文分词.html" title="Posts tagged 中文分词" style="font-size: 16.2px; line-height:16.2px">中文分词</a> &nbsp;&nbsp;<a href="/tags/云计算.html" title="Posts tagged 云计算" style="font-size: 16.2px; line-height:16.2px">云计算</a> &nbsp;&nbsp;<a href="/tags/推荐系统.html" title="Posts tagged 推荐系统" style="font-size: 16.2px; line-height:16.2px">推荐系统</a>
+
+</aside>
+
+
+     
+    </div> <!-- #main -->
+  </div> <!-- #main-container -->
+
+<div id="about-container">
+  <div class="wrapper">
+
+    <div id="side" class="clearfix">
+    </div>
+            
+    <article>
+    <h2>About</h2>
+    <strong>@ling0322 (Louis Chen)</strong></br>
+    <span>Python / NLP / Machine Learning / Go</span><br />
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/2.5/cn/88x31.png" /></a></span><br />
+    <span>本作品采用知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议进行许可</span><br />
+    <span>* This template is from <a href="http://al3xandr3.github.io/">http://al3xandr3.github.io/</a></span>
+    </article>
+
+  </div> <!-- wrapper -->
+</div> <!-- about-container -->
+
+
+
+
+<!-- Metro Pivot -->
+
+</body>
+</html>
