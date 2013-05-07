@@ -1,0 +1,50 @@
+---
+layout: default
+---
+
+
+<script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/js/libs/prettify.js"></script>
+<script type="text/javascript">
+$(function () {
+  $('pre').addClass("prettyprint");
+  prettyPrint();
+});
+</script>
+
+<article>
+  <section>
+  <h1>{{page.title}}</h1>
+  {{ content }}
+  </section>
+  <footer>
+  </footer>
+</article>
+
+<aside>
+  <h4>{{page.date|date_to_string}}</h4>
+  <span style="opacity:.85;font-size: 100%;">{% for tag in page.tags %}<a href="/tags/{{tag}}.html">#{{tag}}</a> &nbsp;{% endfor %}</span>
+  <h3>Recent Posts</h3>
+  {% for post in site.posts limit: 5 %}
+    <a href="{{post.url}}">{{post.title}}</a> <br>
+  {% endfor %}
+  <h3>Tags</h3>
+  {% include cloud.html %}
+</aside>
+
+
