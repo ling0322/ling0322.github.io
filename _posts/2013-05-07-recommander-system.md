@@ -1,6 +1,6 @@
 --- 
 layout: post
-title: 使用矩阵分解做推荐系统
+title: 使用矩阵分解(SVD)实现推荐系统
 category: 机器学习
 tags:
   - 推荐系统
