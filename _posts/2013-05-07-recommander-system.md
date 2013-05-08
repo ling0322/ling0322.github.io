@@ -56,5 +56,5 @@ SVD就是一种主成分分析以及降维的方法，大体思路就是一个�
 另外推荐一篇论文[Matrix Factorization Techniques for Recommender Systems][1]
 
 
-[1]: www2.research.att.com/~volinsky/papers/ieeecomputer.pdf‎
+[1]: http://www2.research.att.com/~volinsky/papers/ieeecomputer.pdf‎
 
