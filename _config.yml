@@ -1,9 +1,5 @@
 permalink: /:year/:month/:day/:title.html
-auto: true
 markdown: rdiscount
-author: al3xandr3
-title: al3xandr3
-keywords: programming, data, machine learning, alexandre martins, al3xandr3
-url: http://al3xandr3.github.com
-paginate: 6
+name: 借我一支笔 --- ling0322
 pygments: false
+comments: true

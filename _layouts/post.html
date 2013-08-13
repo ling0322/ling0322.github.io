@@ -2,49 +2,39 @@
 layout: default
 ---
 
-
-<script type="text/javascript"
-src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<link href="/js/prettify/prettify.css" type="text/css" rel="stylesheet" />
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
-    MathJax.Hub.Config({
-          tex2jax: {
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-          }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
+MathJax.Hub.Config({
+  tex2jax: {skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+});
 </script>
-<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="/js/libs/prettify.js"></script>
+<script src="/js/prettify/prettify.js"></script>
 <script type="text/javascript">
 $(function () {
   $('pre').addClass("prettyprint");
   prettyPrint();
 });
 </script>
+<h2>{{ page.title }}</h2>
+<p class="meta">{{ page.date | date_to_string }}</p>
 
-<article>
-  <section>
-  <h1>{{page.title}}</h1>
-  {{ content }}
-  </section>
-  <footer>
-  </footer>
-</article>
+<div id="post">
+{{ content }}
+</div>
 
-<aside>
-  <h4>{{page.date|date_to_string}}</h4>
-  <span>{% for tag in page.tags %}<a href="/tags/{{tag}}.html">#{{tag}}</a> &nbsp;{% endfor %}</span>
-  <h3>Recent Posts</h3>
-  {% for post in site.posts limit: 5 %}
-    <a href="{{post.url}}">{{post.title}}</a> <br>
-  {% endfor %}
-  <h3>Tags</h3>
-  {% include cloud.html %}
-</aside>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissshot'; // required: replace example with your forum shortname
 
-
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a> 
