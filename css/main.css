@@ -67,11 +67,12 @@ ul.posts span {
 /*****************************************************************************/
 
 .site {
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 115%;
+  line-height: 1.5em;
   text-align: justify;
   width: 42em;
   margin: 3em auto 2em;
+  padding: 0 10px;
 }
 
 .site .header a {
