@@ -57,7 +57,7 @@ with语句的设计目的就是为了使得之前需要通过try...finally解决
 
 类似这种API，contextlib提供了一个叫做closing方法，它会在离开with语句的时候，自动调用对象的close方法，因此urlopen也可以这样写：
     
-    from contextlib import nested
+    from contextlib import closing
     ...
     with closing(urllib.request.urlopen('http://www.yahoo.com')) as f:
         for line in f:
