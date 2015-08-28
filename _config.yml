@@ -1,6 +1,6 @@
 # Site settings
 title: 借我一支笔
-email: ling032x@gmail.com
+email: ling032x#gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   原创的笔记
 baseurl: "" # the subpath of your site, e.g. /blog/
