@@ -1,10 +1,6 @@
 --- 
 layout: post
 title: 使Python 2.x字符串编码的小结
-category: 代码
-tags:
-  - Python
-intro: "Python中经常遇到UnicodeEncodeError或者杯具的发现明明在Eclipse中写的程序能够正常运行然后到了终端下面就跳出以上的一段话. 那么, 就证明你和我一样, 遇到了悲催的Python的编码问题了."
 ---
 
 如果你 经常遇到这种错误提示的信息: UnicodeEncodeError: ‘ascii’ codec can’t encode characters in position 0-1: ordinal not in range(128), 或者杯具的发现明明在Eclipse中写的程序能够正常运行然后到了终端下面就跳出以上的一段话. 那么, 就证明你和我一样, 遇到了悲催的Python的编码问题了.

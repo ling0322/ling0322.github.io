@@ -1,12 +1,6 @@
 --- 
 layout: post
 title: MapReduce笔记
-category: 云计算
-tags:
-  - MapReduce
-  - Google
-  - 云计算
-intro: "Google的MapReduce是一种分布式计算的框架，它的设计的目标就是在廉价PC组成的集群中，并行处理大规模的数据。"
 ---
 
 Google的MapReduce是一种分布式计算的框架，它的设计的目标就是在廉价PC组成的集群中，并行处理大规模的数据。另外的一个设计思路就是限制计算的模型以在分布以及运算上面得以优化。

@@ -1,11 +1,6 @@
 --- 
 layout: post
 title: 使用韩梅梅(HMM)模型(又称隐马模型)解决拼音输入的纠错问题
-category: 机器学习
-tags:
-  - HMM
-  - Machine Learning
-intro: "使用使用隐马模型在输入法中进行拼音纠错"
 ---
 
 拼音纠错就是将用户输入的汉语拼音进行纠错，这个貌似说跟没说一个样。打个比方吧，用户输入zhege(这个)的时候，不小心输成了zhrge。这个时候就需要拼音纠错将zhr ge自动识别成zhe ge，因为完整的拼音zh后面不可能跟着r。

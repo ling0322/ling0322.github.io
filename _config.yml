@@ -1,5 +1,12 @@
-permalink: /:year/:month/:day/:title.html
-markdown: rdiscount
-name: 借我一支笔 --- ling0322
-pygments: false
-comments: true
+# Site settings
+title: 借我一支笔
+email: ling032x@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  原创的笔记
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://ling0322.info" # the base hostname & protocol for your site
+twitter_username: ling0322
+github_username:  ling0322
+
+# Build settings
+markdown: kramdown

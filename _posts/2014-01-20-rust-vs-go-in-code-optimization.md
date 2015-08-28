@@ -7,14 +7,16 @@ title: rust vs go, 强大的代码优化能力
 
 先拿go语言做一个对照组吧，很简单，从1到1000000000求和，一个for循环解决的代码
 
-    func main() {
-      sum := 0
-      for i := 0; i < 1000000000; i++ {
-        sum += i
-      }
-      
-      fmt.Println(sum)
-    }
+{% highlight go %}
+func main() {
+  sum := 0
+  for i := 0; i < 1000000000; i++ {
+    sum += i
+  }
+  
+  fmt.Println(sum)
+}
+{% endhighlight %}
 
 使用go build编译，执行的时间是
 
@@ -24,19 +26,21 @@ title: rust vs go, 强大的代码优化能力
 
 把它写成闭包的形式
 
-    func forEach(callback func (int))  {
-        for i := 0; i < 1000000000; i++ {
-            callback(i)
-        }
+{% highlight go %}
+func forEach(callback func (int))  {
+    for i := 0; i < 1000000000; i++ {
+        callback(i)
     }
+}
 
-    func main() {
-        sum := 0
-        forEach(func (i int) {
-            sum += i
-        })
-        fmt.Println(sum)
-    }
+func main() {
+    sum := 0
+    forEach(func (i int) {
+        sum += i
+    })
+    fmt.Println(sum)
+}
+{% endhighlight %}
 
 使用go build编译一下，运行的时间是
 
@@ -46,19 +50,21 @@ title: rust vs go, 强大的代码优化能力
 
 说明go语言根本对闭包的优化不感兴趣，这个时候看看rust语言的效果吧
 
-    fn for_each(f: |int| -> ()) {
-      let mut i = 0;
-      while i < 1000000000 {
-        f(i);
-        i += 1;
-      }
-    }
+{% highlight rust %}
+fn for_each(f: |int| -> ()) {
+  let mut i = 0;
+  while i < 1000000000 {
+    f(i);
+    i += 1;
+  }
+}
 
-    fn main() {
-      let mut sum = 0;
-      for_each(|x| sum += x);
-      println!("{}", sum);
-    }
+fn main() {
+  let mut sum = 0;
+  for_each(|x| sum += x);
+  println!("{}", sum);
+}
+{% endhighlight %}
 
 使用rust -O编译，运行的时间竟然是
 
@@ -72,27 +78,29 @@ title: rust vs go, 强大的代码优化能力
     
 竟然在编译时期就计算好了！！！！！！！！！！于是就打算改一下代码从stdin读入1000000000，而不是在代码里面hard code这样应该不会优化了吧，但是...
 
-    use std::io::BufferedReader;
-    use std::io;
+{% highlight rust %}
+use std::io::BufferedReader;
+use std::io;
 
-    fn for_each(f: |int| -> (), end: int) {
-      let mut i = 0;
-      while i < end {
-        f(i);
-        i += 1;
-      }
-    }
+fn for_each(f: |int| -> (), end: int) {
+  let mut i = 0;
+  while i < end {
+    f(i);
+    i += 1;
+  }
+}
 
-    fn main() {
-      let mut reader = BufferedReader::new(io::stdin());
-      let input = reader.read_line().unwrap();
-      let num_str = input.trim();
-      let num = from_str::<int>(num_str).unwrap();
+fn main() {
+  let mut reader = BufferedReader::new(io::stdin());
+  let input = reader.read_line().unwrap();
+  let num_str = input.trim();
+  let num = from_str::<int>(num_str).unwrap();
 
-      let mut sum = 0;
-      for_each(|x| sum += x, num);
-      println!("{}", sum);
-    }
+  let mut sum = 0;
+  for_each(|x| sum += x, num);
+  println!("{}", sum);
+}
+{% endhighlight %}
 
 这个使用rustc -O编译号之后，因为是从stdin读入一个数，所以使用‘time echo 1000000000 | ./3’运行，结果还是
 

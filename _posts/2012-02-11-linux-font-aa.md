@@ -1,10 +1,6 @@
 --- 
 layout: post
 title: Linux下Simsun字体英文关AA的设置
-category: 其他
-tags:
-  - Font
-intro: "在Linux下强制11px-16px的点阵宋体使用点阵显示，解决字体发虚的问题."
 ---
 
 在~目录下建立一个.fonts.conf文件里面的内容为
