@@ -66,16 +66,16 @@ let bar = (1..100).filter(|&n| n % 2 == 0).map(|n| n * n).fold(0, |f, n| f + n);
 
 在计算过程中，直到最终结果出来，没有任何作为中间结构的数组生成。fold中每个值仅当需要的时候才会去计算得到。加上内嵌lambda表达式的优化，上述代码的运行效率与for相差无几。这就是函数式编程中惰性求值(lazy evaluation)的概念。
 
-## 范型 ##
+## 泛型 ##
 
-Rust的范型的声明比较简单，比如范型函数
+Rust的泛型的声明比较简单，比如泛型函数
 
 {% highlight rust %}
 fn takes_anything<T>(x: T) {
 }
 {% endhighlight %}
 
-范型的结构体
+泛型的结构体
 
 {% highlight rust %}
 struct Point<T> {
@@ -86,7 +86,7 @@ let int_origin = Point { x: 0, y: 0 };
 let float_origin = Point { x: 0.0, y: 0.0 };
 {% endhighlight %}
 
-其中范型的实现，不同于Java的语法糖的方式，而更接近于C++模版的实现。并且在C++模版的基础上，加上了编译期间的检查，如
+其中泛型的实现，不同于Java的语法糖的方式，而更接近于C++模版的实现。并且在C++模版的基础上，加上了编译期间的检查，如
 
 {% highlight rust %}
 fn foo<T>(bar: &T) -> String {
@@ -113,7 +113,7 @@ fn foo<T: ToString>(bar: &T) -> String {
 
 然后在声明中加上`foo<T: ToString>`，告诉编译器T必须实现ToString这个Trait。只有这样，在后面`bar.to_string()`调用to_string的时候编译才会通过。
 
-范型也是Rust中多态的概念：Rust的多态分成两类，第一类是类似于上面的模版方式在编译期间静态分派(static dispatch)，第二类是类似于OOP语言中虚函数实现的动态分派(dynamic dispatch)。 
+泛型也是Rust中多态的概念：Rust的多态分成两类，第一类是类似于上面的模版方式在编译期间静态分派(static dispatch)，第二类是类似于OOP语言中虚函数实现的动态分派(dynamic dispatch)。 
 
 其中，foo方法也可以写成动态分派的形式
 
